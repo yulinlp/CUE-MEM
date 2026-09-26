@@ -1,40 +1,49 @@
-<div align="center">
+<h1 align="center">🧠 CUE-Mem: Benchmarking Long-Term User Memory<br>via Implicit Cues in Multimodal Conversations</h1>
 
-# CUE-Mem
-### Benchmarking Long-Term User Memory via Implicit Cues in Multimodal Conversations
+<p align="center">
+  Yulin Hu · Yanyan Zhao · Zimo Long · Xing Fu · Mengtong Ji<br>
+  Weixiang Zhao · Yutai Hou · Qianchao Wang · Dandan Tu<br>
+  <sub>Harbin Institute of Technology &nbsp; · &nbsp; Huawei Technologies Co., Ltd.</sub>
+</p>
 
-[**Online Demo**](https://reichenbach1854-hash.github.io/CUE-Mem/) · [**Dataset**](https://huggingface.co/datasets/Kkryptonite/CUE-Mem) · [**Getting Started**](#getting-started) · [**中文运行指南**](guides/usage_zh.md)
+<p align="center">
+  <a href="https://reichenbach1854-hash.github.io/CUE-Mem/"><img src="https://img.shields.io/badge/🌐_Online_Demo-Explore-2563EB?style=flat-square" alt="Online demo"></a>
+  <a href="https://huggingface.co/datasets/Kkryptonite/CUE-Mem"><img src="https://img.shields.io/badge/🤗_Hugging_Face-Dataset-FFCC4D?style=flat-square" alt="Dataset on Hugging Face"></a>
+  <a href="#getting-started"><img src="https://img.shields.io/badge/🚀_Quick_Start-Code-16A085?style=flat-square" alt="Quick start"></a>
+  <a href="#citation"><img src="https://img.shields.io/badge/arXiv-Coming_Soon-888888?style=flat-square" alt="arXiv link coming soon"></a>
+</p>
 
-Yulin Hu, **Yanyan Zhao***, Zimo Long, Xing Fu, Mengtong Ji, Weixiang Zhao, Yutai Hou, Qianchao Wang, Dandan Tu
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#getting-started">Installation</a> •
+  <a href="#experiments">Experiments</a> •
+  <a href="#citation">Citation</a> •
+  <a href="guides/usage_zh.md">中文指南</a>
+</p>
 
-Harbin Institute of Technology · Huawei Technologies Co., Ltd.<br>
-*Corresponding author: Yanyan Zhao*
+> **Remembering beyond what is said.** CUE-Mem tests whether conversational agents can preserve and use implicit user cues in images, ambient audio, and long-term dialogue.
 
-</div>
+<p align="center">
+  <b>2,674 questions</b> &nbsp; · &nbsp; <b>3 modalities</b> &nbsp; · &nbsp; <b>4 tasks</b> &nbsp; · &nbsp; <b>Explicit &amp; implicit evidence</b>
+</p>
 
-**Can a conversational agent remember what a user never explicitly says?**
+<p align="center">
+  <a href="https://reichenbach1854-hash.github.io/CUE-Mem/"><img src="assets/benchmark.png" alt="CUE-Mem: from multimodal user histories and implicit cues to four memory evaluation tasks" width="100%"></a><br>
+  <sub>CUE-Mem construction and evaluation. <a href="https://reichenbach1854-hash.github.io/CUE-Mem/">Explore image, audio, and QA examples in the interactive demo →</a></sub>
+</p>
 
-A pet bowl in the background of a photograph, repeated cycling equipment, or ambient sounds in a voice message can reveal information that matters for future interactions. CUE-Mem evaluates whether memory systems retain, retrieve, and use these subtle cues across long-term multimodal conversations.
+## Overview
 
-The benchmark contains **2,674 questions** spanning **text, images, and audio**, with explicit and implicit evidence settings across four tasks:
+A pet bowl in the background of a photograph or recurring sounds in a voice message can reveal information that matters in a later conversation. **CUE-Mem** evaluates whether memory systems retain, retrieve, and use these subtle cues, comparing explicit and implicit evidence across **text, images, and audio**.
 
-| Task | What it tests |
-|---|---|
-| **Entity Recall** | Remembering user-related entities and their attributes |
-| **Long Pattern** | Inferring persistent preferences and habits across interactions |
-| **Personalized Recommendation** | Applying remembered information to a new recommendation |
-| **Answer Refusal** | Abstaining when the history does not support an answer |
+| Task | What should the agent remember or infer? |
+| :--- | :--- |
+| 🧩 **Entity Recall** | User-related entities and their attributes |
+| 🔎 **Long Pattern** | Persistent preferences and habits across interactions |
+| 🎯 **Personalized Recommendation** | Information needed for a new recommendation |
+| 🛑 **Answer Refusal** | Whether the history provides enough evidence to answer |
 
-<p align="center"><img src="assets/benchmark.png" alt="CUE-Mem benchmark construction and evaluation overview" width="100%"></p>
-
-## Resources
-
-- **[Online demo](https://reichenbach1854-hash.github.io/CUE-Mem/):** explore the construction pipeline, image/audio examples, QA tasks, and experimental findings in your browser.
-- **[Hugging Face dataset](https://huggingface.co/datasets/Kkryptonite/CUE-Mem):** download the full benchmark separately from the code.
-- **This repository:** data-construction scripts, RQ1/RQ2 memory evaluation, RQ3 multimodal retrieval and answering, and a human-evaluation interface.
-- **Paper:** the arXiv link will be added when the preprint is available.
-
-The `docs/` directory includes the selected media needed by the static demo. Full experiment data, model weights, embedding indices, and generated results are external to this repository.
+The release includes **data-construction scripts**, **RQ1–RQ3 evaluation pipelines**, and **interactive demos**. Download the full benchmark from [Hugging Face](https://huggingface.co/datasets/Kkryptonite/CUE-Mem); the `docs/` directory contains the selected media used by the static demo. Model weights, embedding indices, and generated experiment results are external to the code repository.
 
 ## Getting started
 
