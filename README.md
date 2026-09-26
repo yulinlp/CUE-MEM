@@ -1,6 +1,11 @@
 <h1 align="center">🧠 CUE-Mem: Benchmarking Long-Term User Memory<br>via Implicit Cues in Multimodal Conversations</h1>
 
 <p align="center">
+  <b>Long-Term Memory for Omni-Modal Agents</b><br>
+  <sub>Text · Images · Audio — Remembering beyond what is said.</sub>
+</p>
+
+<p align="center">
   Yulin Hu · Yanyan Zhao · Zimo Long · Xing Fu · Mengtong Ji<br>
   Weixiang Zhao · Yutai Hou · Qianchao Wang · Dandan Tu<br>
   <sub>Harbin Institute of Technology &nbsp; · &nbsp; Huawei Technologies Co., Ltd.</sub>
@@ -21,10 +26,10 @@
   <a href="guides/usage_zh.md">中文指南</a>
 </p>
 
-> **Remembering beyond what is said.** CUE-Mem tests whether conversational agents can preserve and use implicit user cues in images, ambient audio, and long-term dialogue.
+> **Can omni-modal agents remember beyond what is said?** CUE-Mem benchmarks long-term user memory across **text, images, and audio**, testing whether agents preserve and use implicit cues from what they read, see, and hear.
 
 <p align="center">
-  <b>2,674 questions</b> &nbsp; · &nbsp; <b>3 modalities</b> &nbsp; · &nbsp; <b>4 tasks</b> &nbsp; · &nbsp; <b>Explicit &amp; implicit evidence</b>
+  <b>2,674 questions</b> &nbsp; · &nbsp; <b>Omni-modal: Text · Image · Audio</b> &nbsp; · &nbsp; <b>4 tasks</b> &nbsp; · &nbsp; <b>Explicit &amp; implicit evidence</b>
 </p>
 
 <p align="center">
@@ -34,7 +39,7 @@
 
 ## Overview
 
-A pet bowl in the background of a photograph or recurring sounds in a voice message can reveal information that matters in a later conversation. **CUE-Mem** evaluates whether memory systems retain, retrieve, and use these subtle cues, comparing explicit and implicit evidence across **text, images, and audio**.
+A pet bowl in the background of a photograph or recurring sounds in a voice message can reveal information that matters in a later conversation. **CUE-Mem** evaluates **omni-modal user memory**: whether memory systems retain, retrieve, and use these subtle cues across **text, images, and audio**. By comparing explicit and implicit evidence, it probes whether an agent can turn what it reads, sees, and hears into useful long-term memory.
 
 | Task | What should the agent remember or infer? |
 | :--- | :--- |
@@ -147,9 +152,9 @@ python -m scripts.RQ1_RQ2.benchmark.run.aggregate_results \
 
 The [detailed guide](guides/usage_zh.md#7-rq1rq2-benchmark) covers caption/audio comparisons, memory backends, and Slurm wrappers. Aggregation reads existing results; it does not reproduce model inference.
 
-### RQ3: Multimodal indexing versus multimodal evidence use
+### RQ3: Omni-model evaluation — indexing versus evidence use
 
-RQ3 separates the retrieval index from the evidence supplied to the answering model:
+RQ3 evaluates how **Omni models** use retrieved user memories, separating the retrieval index from the evidence supplied to the answering model. Its four settings isolate the contributions of multimodal retrieval and omni-modal evidence use:
 
 | Variant | Index | Evidence use |
 |---|---|---|
