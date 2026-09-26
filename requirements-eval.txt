@@ -1,0 +1,10 @@
+# RQ1/RQ2 and RQ3 evaluation imports; install torch for your CPU/CUDA environment.
+-r requirements-public.txt
+numpy>=1.24
+regex>=2023.0
+nltk>=3.8
+# Optional plotting commands
+matplotlib>=3.7
+pandas>=2.0
+seaborn>=0.12
+# Install torch separately, then any selected backend (ImageBind, transformers, etc.).

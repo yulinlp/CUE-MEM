@@ -1,12 +1,15 @@
-# CUE-Mem GitHub Pages demo
+# CUE-Mem static demo
 
-This directory is a self-contained static deployment of the CUE-Mem demo.
-It does not require `benchmark_demo/server.py`: the browser loads the exported
-JSON files from `data/` and the selected images/audio from `media/`.
+The live project website is https://reichenbach1854-hash.github.io/CUE-Mem/.
 
-To publish it with GitHub Pages, copy the contents of this directory to the
-repository's `docs/` directory, or publish this directory with a GitHub Actions
-Pages workflow. Enable Pages in repository Settings → Pages, then select the
-chosen branch and `/docs` source.
+From the repository root, run:
 
-The original Python-backed demo remains in `benchmark_demo/`.
+```bash
+python -m http.server 8000 --bind 127.0.0.1 --directory docs
+```
+
+Open http://127.0.0.1:8000. The demo includes selected text, image, and audio examples, construction steps, and experiment summaries. It requires no API key or Python dependencies beyond the standard library.
+
+For GitHub Pages, select the `main` branch and `/docs` directory in repository Settings → Pages. This is optional; the project website above remains the primary demo.
+
+The interactive human-evaluation server is a separate application in `scripts/human_baseline_demo/`; see the [main README](../README.md).

@@ -68,3 +68,8 @@ qa/*.tmp
 # Human baseline submissions
 **/human_baseline_demo/results/
 **/human_baseline_demo/*.log
+
+# Downloaded benchmark and local experiment workspace
+benchmark-data/
+workdir/
+.venv/
