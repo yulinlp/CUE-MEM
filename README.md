@@ -1,8 +1,7 @@
 <h1 align="center">🧠 CUE-Mem: Benchmarking Long-Term User Memory<br>via Implicit Cues in Multimodal Conversations</h1>
 
 <p align="center">
-  <b>Long-Term Memory for Omni-Modal Agents</b><br>
-  <sub>Text · Images · Audio — Remembering beyond what is said.</sub>
+  <b>Long-Term Memory for Omni-Modal Agents</b>
 </p>
 
 <p align="center">
@@ -26,7 +25,7 @@
   <a href="guides/usage_zh.md">中文指南</a>
 </p>
 
-> **Can omni-modal agents remember beyond what is said?** CUE-Mem benchmarks long-term user memory across **text, images, and audio**, testing whether agents preserve and use implicit cues from what they read, see, and hear.
+**CUE-Mem** benchmarks long-term user memory in **omni-modal agents**, with 2,674 questions grounded in explicit and implicit cues across text, images, and audio.
 
 <p align="center">
   <b>2,674 questions</b> &nbsp; · &nbsp; <b>Omni-modal: Text · Image · Audio</b> &nbsp; · &nbsp; <b>4 tasks</b> &nbsp; · &nbsp; <b>Explicit &amp; implicit evidence</b>
@@ -39,7 +38,7 @@
 
 ## Overview
 
-A pet bowl in the background of a photograph or recurring sounds in a voice message can reveal information that matters in a later conversation. **CUE-Mem** evaluates **omni-modal user memory**: whether memory systems retain, retrieve, and use these subtle cues across **text, images, and audio**. By comparing explicit and implicit evidence, it probes whether an agent can turn what it reads, sees, and hears into useful long-term memory.
+CUE-Mem evaluates how agents retain and use user information from multimodal conversation histories. It compares explicit statements with implicit cues, such as objects in photographs and background sounds in audio, across four memory tasks.
 
 | Task | What should the agent remember or infer? |
 | :--- | :--- |
@@ -48,13 +47,13 @@ A pet bowl in the background of a photograph or recurring sounds in a voice mess
 | 🎯 **Personalized Recommendation** | Information needed for a new recommendation |
 | 🛑 **Answer Refusal** | Whether the history provides enough evidence to answer |
 
-The release includes **data-construction scripts**, **RQ1–RQ3 evaluation pipelines**, and **interactive demos**. Download the full benchmark from [Hugging Face](https://huggingface.co/datasets/Kkryptonite/CUE-Mem); the `docs/` directory contains the selected media used by the static demo. Model weights, embedding indices, and generated experiment results are external to the code repository.
+The repository includes **data-construction scripts**, **RQ1–RQ3 evaluation pipelines**, and **interactive demos**. The dataset is available on [Hugging Face](https://huggingface.co/datasets/Kkryptonite/CUE-Mem).
 
 ## Getting started
 
 ### 1. Browse the demo
 
-The [hosted demo](https://reichenbach1854-hash.github.io/CUE-Mem/) needs no installation. To serve the included copy locally:
+Explore the [online demo](https://reichenbach1854-hash.github.io/CUE-Mem/), or run it locally:
 
 ```bash
 git clone https://github.com/yulinlp/CUE-MEM.git
@@ -62,7 +61,7 @@ cd CUE-MEM
 python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open **http://127.0.0.1:8000**. This route uses Python's standard library and needs no API keys or model downloads. Use an HTTP server rather than opening `index.html` directly, because the application fetches JSON files.
+Open **http://127.0.0.1:8000**.
 
 ### 2. Install experiment dependencies
 
@@ -76,7 +75,7 @@ python -m pip install -r requirements-eval.txt
 python -m pip install torch
 ```
 
-The final command installs the default PyTorch build. For GPU experiments, choose the PyTorch build appropriate to your CUDA environment. ImageBind, local model serving, TTS, and individual memory backends require their own packages and weights; the basic installation does not install all research backends. The smaller `requirements-public.txt` covers the shared construction utilities.
+For GPU experiments, install PyTorch for your CUDA version. Install the packages and weights for your chosen memory backend, ImageBind, or TTS service as needed.
 
 ### 3. Download and prepare the dataset
 
@@ -89,9 +88,9 @@ python -m scripts.prepare_dataset \
   --output-root workdir/benchmark
 ```
 
-The preparation command copies dialogue/QA JSONs into the runners' expected layout and resolves published media paths to absolute local paths. It preserves questions, answers, annotations, and the original download. Media files are not duplicated. Keep `benchmark-data/` at the same location after preparation; use a new output directory if you prepare another copy.
+The command prepares dialogue and QA files for the evaluation runners and links them to media in `benchmark-data/`. Keep that directory in place after preparation.
 
-Check `workdir/benchmark/dataset_preparation.json`: missing media are listed explicitly. A successful JSON preparation does not mean every media file has been downloaded. Complete those files before multimodal experiments.
+Download any missing media listed in `workdir/benchmark/dataset_preparation.json` before running multimodal experiments.
 
 ### 4. Configure your model service
 
@@ -105,13 +104,13 @@ set +a
 export CUE_MEM_BENCHMARK_ROOT="$PWD/workdir/benchmark"
 ```
 
-`.env` is not loaded automatically. Configure `CUE_MEM_LLM_API_KEY` and `CUE_MEM_LLM_BASE_URL` for the RQ1/RQ2 OpenAI-compatible service. The runner accepts the model names listed by `--help`; the endpoint must serve the selected model. RQ3 additionally uses `RQ3_OMNI_*` and the selected embedding-provider settings. See [`.env.example`](.env.example) for the full list.
+Set `CUE_MEM_LLM_API_KEY` and `CUE_MEM_LLM_BASE_URL` for RQ1/RQ2, and choose a model served by your endpoint from the runner’s `--help` list. For RQ3, configure `RQ3_OMNI_*` and your embedding provider in [`.env.example`](.env.example).
 
 ## Experiments
 
 ### RQ1: Memory from explicit and implicit evidence
 
-Start with one profile and a small QA sample. This command makes real model-service requests once configured:
+Evaluate one profile with your configured model service:
 
 ```bash
 python -m scripts.RQ1_RQ2.benchmark.run.run_bench \
@@ -123,7 +122,7 @@ python -m scripts.RQ1_RQ2.benchmark.run.run_bench \
   --save_results
 ```
 
-`--sample` limits QA items per category; it does not necessarily limit the history ingested by a memory backend. With `--caption_category base`, `--data_name` is relative to `data/dialog/base/` and omits `.json`. The example model must be available on your configured endpoint; it is not downloaded by this command.
+`--sample` sets the number of QA items per category. Memory backends process the conversation history separately. With `--caption_category base`, `--data_name` selects a JSON file under `data/dialog/base/`, without the `.json` extension.
 
 Question-only and oracle-evidence baselines have separate entry points:
 
@@ -134,7 +133,7 @@ python -m scripts.RQ1_RQ2.benchmark.run.run_bench_oracle_evidence --help
 
 ### RQ2: What is preserved by textualization?
 
-RQ2 varies image-caption detail and audio representations before memory evaluation. Caption variants must first be generated or supplied; the base dataset alone does not contain every intervention.
+RQ2 compares image-caption detail and audio representations. Prepare the caption variants, then run memory evaluation:
 
 ```bash
 python -m scripts.RQ1_RQ2.benchmark.run.run_bench --help
@@ -150,9 +149,9 @@ python -m scripts.RQ1_RQ2.benchmark.run.aggregate_results \
   --result-dir "$CUE_MEM_BENCHMARK_ROOT/result_debug/base"
 ```
 
-The [detailed guide](guides/usage_zh.md#7-rq1rq2-benchmark) covers caption/audio comparisons, memory backends, and Slurm wrappers. Aggregation reads existing results; it does not reproduce model inference.
+The [detailed guide](guides/usage_zh.md#7-rq1rq2-benchmark) covers caption/audio comparisons, memory backends, and Slurm wrappers.
 
-### RQ3: Omni-model evaluation — indexing versus evidence use
+### RQ3: Retrieval and evidence use in Omni models
 
 RQ3 evaluates how **Omni models** use retrieved user memories, separating the retrieval index from the evidence supplied to the answering model. Its four settings isolate the contributions of multimodal retrieval and omni-modal evidence use:
 
@@ -190,11 +189,11 @@ python -m scripts.RQ3.step3_evaluate \
   --result-root workdir/RQ3/results
 ```
 
-The experiment stage requires an Omni answering service configured through `RQ3_OMNI_*`. A Gemini-compatible embedding backend is also supported; see the [detailed guide](guides/usage_zh.md#8-rq3-实验). Changing the model or embedding backend changes the experimental setting.
+The experiment stage requires an Omni answering service configured through `RQ3_OMNI_*`. A Gemini-compatible embedding backend is also supported; see the [detailed guide](guides/usage_zh.md#8-rq3-实验).
 
 ## Data construction and human evaluation
 
-Construction scripts follow **profiles → events and conversations → QA → benchmark inputs**. You do not need to regenerate the benchmark to evaluate on its published data.
+The data-construction pipeline follows **profiles → events and conversations → QA → benchmark inputs**.
 
 | Directory | Contents |
 |---|---|
@@ -217,9 +216,9 @@ python -m scripts.human_baseline_demo \
   --host 127.0.0.1 --port 8765
 ```
 
-Open http://127.0.0.1:8765. This is a separate application from the static project website and writes participant submissions to the specified output directory.
+Open http://127.0.0.1:8765. Participant submissions are saved to `workdir/human-results/`.
 
-See [release validation](guides/validation.md) for the checks performed and their scope.
+[Validation results](guides/validation.md)
 
 ## Citation
 
@@ -232,10 +231,8 @@ See [release validation](guides/validation.md) for the checks performed and thei
 }
 ```
 
-The citation will be updated with the arXiv identifier once available.
-
 ## Acknowledgments and reuse
 
-This release builds on the [collaborator-maintained CUE-Mem repository](https://github.com/reichenbach1854-hash/CUE-Mem); its Git history is retained. The online demo remains hosted by that collaborator. Thanks to the authors of the memory systems and model backends used in the experiments.
+Thanks to our collaborators for the [original implementation and demo](https://github.com/reichenbach1854-hash/CUE-Mem), and to the authors of the memory systems and model backends used in our experiments.
 
-The imported code repository does not include a standalone code license. Dataset terms are provided with the [dataset release](https://huggingface.co/datasets/Kkryptonite/CUE-Mem). No new code license is assigned by this cleanup; upstream dependencies retain their own terms.
+Dataset terms are available on [Hugging Face](https://huggingface.co/datasets/Kkryptonite/CUE-Mem).
